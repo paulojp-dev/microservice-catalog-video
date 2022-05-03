@@ -25,11 +25,17 @@ if (!function_exists('dd')) {
     /**
      * @codeCoverageIgnore
      * @param mixed ...$data
-     * @return void
      */
     function dd(mixed ...$data): void
     {
         dump($data);
         die();
+    }
+}
+
+if (!function_exists('now')) {
+    function now(): \DateTime
+    {
+        return new \DateTime();
     }
 }

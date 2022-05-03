@@ -5,6 +5,7 @@ namespace Domain\Entity;
 use Domain\Validation\AttributeValidator;
 use Domain\Validation\Rule\MaxRule;
 use Domain\Validation\Rule\MinRule;
+use Domain\ValueObject\Uuid;
 
 class Category
 {
@@ -12,8 +13,11 @@ class Category
         private string $name,
         private string $description,
         private ?bool $isActive = true,
-        private ?string $id = null,
+        private ?Uuid $id = null,
+        private ?\DateTime $createdAt = null
     ) {
+        $this->id = $this->id ?? Uuid::random();
+        $this->createdAt = $this->createdAt ?? now();
         $this->validateName($name);
         $this->validateDescription($description);
     }
@@ -76,5 +80,10 @@ class Category
     public function getId(): ?string
     {
         return $this->id;
+    }
+
+    public function getCreatedAt(): \DateTime
+    {
+        return $this->createdAt;
     }
 }
