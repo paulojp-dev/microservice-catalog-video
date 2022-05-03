@@ -41,4 +41,10 @@ class HelperUnitTest extends TestCase
         $arr = ['name' => 'Anna'];
         $this->assertFalse(array_has($arr, 'age'));
     }
+
+    public function testNowMustReturnActualDateTime(): void
+    {
+        $actualDateTime = now();
+        $this->assertNotNull($actualDateTime);
+    }
 }

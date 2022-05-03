@@ -25,4 +25,11 @@ class UuidUnitTest extends TestCase
             ->rules(new AssertUuidRule())
             ->assert();
     }
+
+    public function testMustGenerateRandomId(): void
+    {
+        $uuid = Uuid::random();
+        $this->assertNotNull($uuid);
+        $this->assertInstanceOf(Uuid::class, $uuid);
+    }
 }

@@ -3,6 +3,7 @@
 namespace Tests\Unit\Domain\Entity;
 
 use Domain\Entity\Category;
+use Domain\ValueObject\Uuid;
 use Infra\Lib\Shared\PrimitiveType;
 use PHPUnit\Framework\TestCase;
 use Tests\Unit\Domain\Validation\Assert\AssertAttributeRules;
@@ -13,15 +14,37 @@ class CategoryUnitTest extends TestCase
 {
     public function testGettersReturn(): void
     {
+        $uuid = Uuid::random();
+        $createDate = new \DateTime('2000-01-01');
         $category = new Category(
             name: 'New Name',
             description: 'New Description',
-            id: 'uuid',
+            id: $uuid,
+            createdAt: $createDate
         );
-        $this->assertEquals('uuid', $category->getId());
+        $this->assertEquals($uuid, $category->getId());
         $this->assertEquals('New Name', $category->getName());
         $this->assertEquals('New Description', $category->getDescription());
+        $this->assertEquals($createDate, $category->getCreatedAt());
         $this->assertTrue($category->isActive());
+    }
+
+    public function testSetRandomIdIfNotSet(): void
+    {
+        $category = new Category(
+            name: 'New Name',
+            description: 'New Description',
+        );
+        $this->assertNotNull($category->getId());
+    }
+
+    public function testMustSetCurrentDateForCreatedAtFieldIfNotPassValue(): void
+    {
+        $category = new Category(
+            name: 'New Name',
+            description: 'New Description',
+        );
+        $this->assertEquals(now()->format('Y-m-d'), $category->getCreatedAt()->format('Y-m-d'));
     }
 
     public function testMustBeActivated(): void
@@ -48,17 +71,18 @@ class CategoryUnitTest extends TestCase
 
     public function testMustBeUpdated(): void
     {
+        $uuid = Uuid::random();
         $category = new Category(
             name: 'Old Name',
             description: 'Old Description',
             isActive: false,
-            id: 'uuid',
+            id: $uuid,
         );
         $category
             ->setName('New Name')
             ->setDescription('New Description')
             ->activate();
-        $this->assertEquals('uuid', $category->getId());
+        $this->assertEquals($uuid, $category->getId());
         $this->assertEquals('New Name', $category->getName());
         $this->assertEquals('New Description', $category->getDescription());
         $this->assertTrue($category->isActive());
