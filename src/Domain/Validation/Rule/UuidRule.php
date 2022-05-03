@@ -2,13 +2,13 @@
 
 namespace Domain\Validation\Rule;
 
-use Ramsey\Uuid\Uuid;
+use Infra\Adapter\Uuid\UuidAdapter;
 
 class UuidRule extends BaseRule
 {
     protected function isValid(mixed $value): bool
     {
-        return Uuid::isValid($value);
+        return UuidAdapter::isValid($value);
     }
 
     public function message(string $field): string

@@ -4,6 +4,7 @@ namespace Domain\ValueObject;
 
 use Domain\Validation\AttributeValidator;
 use Domain\Validation\Rule\UuidRule;
+use Infra\Adapter\Uuid\UuidAdapter;
 
 class Uuid
 {
@@ -18,6 +19,11 @@ class Uuid
         AttributeValidator::validate(field:'uuid', value: $this->value, nullable: false, rules: [
             new UuidRule()
         ]);
+    }
+
+    public static function random(): self
+    {
+        return new self(UuidAdapter::random());
     }
 
     public function value(): string
