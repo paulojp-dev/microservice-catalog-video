@@ -2,7 +2,7 @@
 
 namespace Domain\UseCase\Category\DTO;
 
-class SaveCategoryOutput
+class GetCategoryOutput
 {
     public function __construct(
         public string $id,

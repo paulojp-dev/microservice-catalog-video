@@ -4,8 +4,8 @@ namespace Domain\UseCase\Category;
 
 use Domain\Entity\Category;
 use Domain\Repository\ICategoryRepository;
+use Domain\UseCase\Category\DTO\GetCategoryOutput;
 use Domain\UseCase\Category\DTO\SaveCategoryInput;
-use Domain\UseCase\Category\DTO\SaveCategoryOutput;
 
 class SaveCategoryUseCase
 {
@@ -14,7 +14,7 @@ class SaveCategoryUseCase
     ) {
     }
 
-    public function exec(SaveCategoryInput $input): SaveCategoryOutput
+    public function exec(SaveCategoryInput $input): GetCategoryOutput
     {
         $category = new Category(
             name: $input->name,
@@ -22,7 +22,7 @@ class SaveCategoryUseCase
             isActive: $input->isActive
         );
         $savedCategory = $this->categoryRepository->save($category);
-        return new SaveCategoryOutput(
+        return new GetCategoryOutput(
             id: $savedCategory->getId(),
             name: $savedCategory->getName(),
             description: $savedCategory->getDescription(),
