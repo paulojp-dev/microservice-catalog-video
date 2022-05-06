@@ -12,8 +12,8 @@ class SaveCategoryUseCaseUnitTest extends TestCase
 {
     public function testMustCreateCategory(): void
     {
-        $repositoryMock = \Mockery::mock(\stdClass::class, ICategoryRepository::class);
         $category = CategoryFactory::init()->make();
+        $repositoryMock = \Mockery::mock(ICategoryRepository::class);
         $repositoryMock->shouldReceive('save')->withAnyArgs()->andReturn($category);
         $useCase = new SaveCategoryUseCase($repositoryMock);
         $output = $useCase->exec(new SaveCategoryInput(
